@@ -124,7 +124,7 @@ GET customers/_search
 
 ***************************
 
-
+Delete query
 
 POST customers/_delete_by_query
 {
