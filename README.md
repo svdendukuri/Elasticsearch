@@ -1,4 +1,4 @@
-# Elasticsearch query examples and other elasticsearch learnings
+# Elasticsearch learnings and  query examples 
 Elasticsearch Ideas and working 
 
 Basic Elasticsearch querys 
