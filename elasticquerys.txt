@@ -1,0 +1,137 @@
+General Search
+
+get customers/_search
+{
+
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": {
+                        "customerid": "ACR-CTMS-26-864"
+                    }
+                }, 
+                {
+                    "match": {
+                        "itemcode": "2"
+                    }
+                }
+            ]
+        }
+    }
+}
+
+*********
+
+
+Distinct values
+GET customers/_search
+{
+  "size": 0,
+  "aggs": {
+    "distinct_colors": {
+      "terms": {
+        "field": "projectshortname",
+        "size": 1000
+      }
+    }
+  }
+}
+
+
+************************
+Update String field
+
+POST customers/_update_by_query
+{ 
+   "query":{ 
+      "constant_score":{ 
+         "filter":{ 
+            "bool":{ 
+               "must":[ 
+                  { 
+                     "term":{ 
+                        "customerid": "ACR-CTMS-26-864"
+                     }
+                  },
+                  { 
+                     "term":{ 
+                        "itemcode":["1","2","3","4"
+                       
+                        ]
+                     }
+                  }
+               ]
+            }
+         }
+      }
+   },
+   "script":{ 
+      "inline":"ctx._source.ethnicity = \"not hispanic or latino\""
+   }
+}
+
+**********************************
+Delete Query
+
+
+get customers/_delete_by_query
+{
+  "query": { 
+    "match": {
+     "customerid": "ACR-CTMS-26-864"
+    }
+  }
+}
+
+
+**********************
+
+
+Distinct Count 
+
+curl -XGET 'http://localhost:9200/employeeid/info/_search?pretty=true' -d '{
+  "size": 0,
+  "aggs": {
+    "duplicateCount": {
+      "terms": {
+      "field": "name",
+        "min_doc_count": 2
+      },
+      "aggs": {
+        "duplicateDocuments": {
+          "top_hits": {}
+        }
+      }
+    }
+  }
+}
+
+
+**************************
+
+Query for getting particular field values count
+
+GET customers/_search
+{
+    "aggs" : {
+        "whatever" : {
+            "terms" : { "field" : "customerid", "size":10000 }
+        }
+    },
+    "size" : 0
+}'
+
+***************************
+
+
+
+POST customers/_delete_by_query
+{
+  "query": { 
+    "match": {
+     "customerid":"6697"
+    }
+  }
+}
+
